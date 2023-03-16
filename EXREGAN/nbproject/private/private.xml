@@ -3,15 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Jose/Documents/GitHub/OLC1_Proyecto1_1S2023_202100308/EXREGAN/src/exregan/Transition.java</file>
-            <file>file:/C:/Users/Jose/Documents/GitHub/OLC1_Proyecto1_1S2023_202100308/EXREGAN/src/exregan/Following.java</file>
-            <file>file:/C:/Users/Jose/Documents/GitHub/OLC1_Proyecto1_1S2023_202100308/EXREGAN/src/exregan/Node.java</file>
-            <file>file:/C:/Users/Jose/Documents/GitHub/OLC1_Proyecto1_1S2023_202100308/EXREGAN/src/exregan/Manager.java</file>
-            <file>file:/C:/Users/Jose/Documents/GitHub/OLC1_Proyecto1_1S2023_202100308/EXREGAN/src/exregan/GUI.java</file>
-            <file>file:/C:/Users/Jose/Documents/GitHub/OLC1_Proyecto1_1S2023_202100308/EXREGAN/src/exregan/Files_Manipulation.java</file>
-            <file>file:/C:/Users/Jose/Documents/GitHub/OLC1_Proyecto1_1S2023_202100308/EXREGAN/src/exregan/JsonLogic.java</file>
-            <file>file:/C:/Users/Jose/Documents/GitHub/OLC1_Proyecto1_1S2023_202100308/EXREGAN/src/exregan/State.java</file>
-            <file>file:/C:/Users/Jose/Documents/GitHub/OLC1_Proyecto1_1S2023_202100308/EXREGAN/src/exregan/FollowingDAO.java</file>
+            <file>file:/C:/Users/Jose/Documents/GitHub/OLC1_Proyecto1_1S2023_202100308_C/EXREGAN/src/exregan/MasterMindUI.java</file>
+            <file>file:/C:/Users/Jose/Documents/GitHub/OLC1_Proyecto1_1S2023_202100308_C/EXREGAN/src/exregan/StackList.java</file>
+            <file>file:/C:/Users/Jose/Documents/GitHub/OLC1_Proyecto1_1S2023_202100308_C/EXREGAN/src/exregan/Statement.java</file>
+            <file>file:/C:/Users/Jose/Documents/GitHub/OLC1_Proyecto1_1S2023_202100308_C/EXREGAN/src/Parser/Generator.java</file>
         </group>
     </open-files>
 </project-private>
