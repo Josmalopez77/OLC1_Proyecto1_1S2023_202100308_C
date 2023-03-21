@@ -55,13 +55,13 @@
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="jScrollPane2" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
-                          <Component id="btnAbrir" min="-2" max="-2" attributes="0"/>
+                          <Component id="openButton" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-                          <Component id="btnGuardar" min="-2" max="-2" attributes="0"/>
+                          <Component id="saveButton" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-                          <Component id="btnGuardarComo" min="-2" max="-2" attributes="0"/>
+                          <Component id="saveAsButton" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
-                          <Component id="btn_Nuevo" min="-2" max="-2" attributes="0"/>
+                          <Component id="newButton" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="188" max="-2" attributes="0"/>
@@ -97,10 +97,10 @@
               <Group type="102" attributes="0">
                   <EmptySpace pref="22" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="btnGuardar" alignment="3" min="-2" pref="39" max="-2" attributes="0"/>
-                      <Component id="btnGuardarComo" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
-                      <Component id="btnAbrir" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
-                      <Component id="btn_Nuevo" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
+                      <Component id="saveButton" alignment="3" min="-2" pref="39" max="-2" attributes="0"/>
+                      <Component id="saveAsButton" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
+                      <Component id="openButton" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
+                      <Component id="newButton" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
                       <Component id="btn_Errores" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
                       <Component id="btn_Reportes" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
                   </Group>
@@ -166,7 +166,7 @@
             <Property name="text" type="java.lang.String" value="Reportes"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="btn_Nuevo">
+        <Component class="javax.swing.JButton" name="newButton">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="33" type="rgb"/>
@@ -179,8 +179,11 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Nuevo Archivo"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="newButtonActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="btnGuardarComo">
+        <Component class="javax.swing.JButton" name="saveAsButton">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="0" type="rgb"/>
@@ -194,10 +197,10 @@
             <Property name="text" type="java.lang.String" value="Guardar Como"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGuardarComoActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveAsButtonActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="btnGuardar">
+        <Component class="javax.swing.JButton" name="saveButton">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="0" type="rgb"/>
@@ -211,10 +214,10 @@
             <Property name="text" type="java.lang.String" value="Guardar"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGuardarActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveButtonActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="btnAbrir">
+        <Component class="javax.swing.JButton" name="openButton">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="66" type="rgb"/>
@@ -228,7 +231,7 @@
             <Property name="text" type="java.lang.String" value="Abrir"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAbrirActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="openButtonActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnAnalizar">

@@ -4,6 +4,7 @@
  */
 package exregan;
 
+import Analyzers.Parser;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -44,7 +45,8 @@ public class MasterMindUI {
     public static java.util.List<Manager> conjs;
     public static String wordsList;
     
-    /*Variable global, área de texto que mostrará el texto del archivo 
+    /*Variable g
+    lobal, área de texto que mostrará el texto del archivo 
     de entrada*/
     public static  JTextArea textEdition1;
     /*Variable global, área de texto que mostrará todo lo relacionado
@@ -226,15 +228,15 @@ public class MasterMindUI {
                     {  
                         conjs = new ArrayList();
                         ch = new StackList();
-                        FilesManipulation writer = new FilesManipulation();
+                        Files_Manipulation writer = new Files_Manipulation();
 
                         wordsList = "";
 
                         try {
                             String content = textEdition1.getText();
-                            analyzers.Parser parser;
+                            Analyzers.Parser parser;
 
-                            parser = new analyzers.Parser(new analyzers.Lexical(new StringReader(content)));
+                            parser = new Analyzers.Parser(new Analyzers.Lexical(new StringReader(content)));
                             parser.parse();
 
                         } catch (Exception e) {
@@ -329,8 +331,8 @@ public class MasterMindUI {
                     {  
                         try {
                             String importrantContent = textEdition1.getText();
-                            analyzers.Parser parser;
-                            parser = new analyzers.Parser(new analyzers.Lexical(new StringReader(importrantContent)));
+                            Analyzers.Parser parser;
+                            parser = new Analyzers.Parser(new Analyzers.Lexical(new StringReader(importrantContent)));
                             parser.parse();
             
                         } catch (Exception e) {
@@ -448,7 +450,7 @@ public class MasterMindUI {
     public static void archivesStructure(){
         
         //Rutas de las carpetas que estarán en el JTree
-        String[] routes = {"C:/Users/Jose/Desktop/OLC_P1_ExpAnalyzer-main/ExpAnalyzer/Reportes/AFND","C:/Users/Jose/Desktop/OLC_P1_ExpAnalyzer-main/ExpAnalyzer/Reportes/ARBOLES","C:/Users/Jose/Desktop/OLC_P1_ExpAnalyzer-main/ExpAnalyzer/Reportes/SIGUIENTES","C:/Users/Jose/Desktop/OLC_P1_ExpAnalyzer-main/ExpAnalyzer/Reportes/TRANSICIONES","C:/Users/Jose/Desktop/OLC_P1_ExpAnalyzer-main/ExpAnalyzer/Reportes/AFD"};
+        String[] routes = {"C:/Users/Jose/Documents/GitHub/OLC1_Proyecto1_1S2023_202100308_C/EXREGAN/Reportes/AFND_202100308","C:/Users/Jose/Documents/GitHub/OLC1_Proyecto1_1S2023_202100308_C/EXREGAN/Reportes/ARBOLES_202100308","C:/Users/Jose/Documents/GitHub/OLC1_Proyecto1_1S2023_202100308_C/EXREGAN/Reportes/SIGUIENTES_202100308","C:/Users/Jose/Documents/GitHub/OLC1_Proyecto1_1S2023_202100308_C/EXREGAN/Reportes/TRANSICIONES_202100308","C:/Users/Jose/Documents/GitHub/OLC1_Proyecto1_1S2023_202100308_C/EXREGAN/Reportes/AFD_202100308"};
         //Nodo raíz que lleva el título "Reportes"
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("Reportes");
         //Por cada ruta:

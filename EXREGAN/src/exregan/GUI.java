@@ -4,19 +4,40 @@
  */
 package exregan;
 
+import Analyzers.Parser;
+import static exregan.MasterMindUI.filesManipulationHandler;
+import static exregan.MasterMindUI.textEdition1;
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JTextArea;
+import javax.swing.JTree;
 
 /**
  *
  * @author Jose
  */
 public class GUI extends javax.swing.JFrame {
-
+    static Files_Manipulation filesManipulationHandler = new Files_Manipulation();
+    public static  JTextArea textEdition1;
+    public static  JTextArea textEdition2;
+    public static Error_DAO errorDaoHandler=Error_DAO.getInstance();
+    public static java.util.List<Node> regularExpressions = new ArrayList();
+    public static java.util.List<Manager> conjs;
+    public static String wordsList;
+    public static StackList ch;
+    public static JTree archivesTree = new JTree();
+    public static java.util.List<Statement> statements = new ArrayList();
+    public static String response="";
+    public static int math =0;
     /**
      * Creates new form GUI
      */
     public GUI() {
+        
         initComponents();
     }
 
@@ -33,10 +54,10 @@ public class GUI extends javax.swing.JFrame {
         btn_Errores = new javax.swing.JButton();
         btn_Reportes = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        btn_Nuevo = new javax.swing.JButton();
-        btnGuardarComo = new javax.swing.JButton();
-        btnGuardar = new javax.swing.JButton();
-        btnAbrir = new javax.swing.JButton();
+        newButton = new javax.swing.JButton();
+        saveAsButton = new javax.swing.JButton();
+        saveButton = new javax.swing.JButton();
+        openButton = new javax.swing.JButton();
         btnAnalizar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -67,38 +88,43 @@ public class GUI extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Reportes");
 
-        btn_Nuevo.setBackground(new java.awt.Color(51, 255, 255));
-        btn_Nuevo.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
-        btn_Nuevo.setForeground(new java.awt.Color(0, 0, 0));
-        btn_Nuevo.setText("Nuevo Archivo");
-
-        btnGuardarComo.setBackground(new java.awt.Color(0, 255, 255));
-        btnGuardarComo.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
-        btnGuardarComo.setForeground(new java.awt.Color(0, 0, 0));
-        btnGuardarComo.setText("Guardar Como");
-        btnGuardarComo.addActionListener(new java.awt.event.ActionListener() {
+        newButton.setBackground(new java.awt.Color(51, 255, 255));
+        newButton.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        newButton.setForeground(new java.awt.Color(0, 0, 0));
+        newButton.setText("Nuevo Archivo");
+        newButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGuardarComoActionPerformed(evt);
+                newButtonActionPerformed(evt);
             }
         });
 
-        btnGuardar.setBackground(new java.awt.Color(0, 255, 255));
-        btnGuardar.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
-        btnGuardar.setForeground(new java.awt.Color(0, 0, 0));
-        btnGuardar.setText("Guardar");
-        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+        saveAsButton.setBackground(new java.awt.Color(0, 255, 255));
+        saveAsButton.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        saveAsButton.setForeground(new java.awt.Color(0, 0, 0));
+        saveAsButton.setText("Guardar Como");
+        saveAsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGuardarActionPerformed(evt);
+                saveAsButtonActionPerformed(evt);
             }
         });
 
-        btnAbrir.setBackground(new java.awt.Color(102, 255, 255));
-        btnAbrir.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
-        btnAbrir.setForeground(new java.awt.Color(0, 0, 0));
-        btnAbrir.setText("Abrir");
-        btnAbrir.addActionListener(new java.awt.event.ActionListener() {
+        saveButton.setBackground(new java.awt.Color(0, 255, 255));
+        saveButton.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        saveButton.setForeground(new java.awt.Color(0, 0, 0));
+        saveButton.setText("Guardar");
+        saveButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAbrirActionPerformed(evt);
+                saveButtonActionPerformed(evt);
+            }
+        });
+
+        openButton.setBackground(new java.awt.Color(102, 255, 255));
+        openButton.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        openButton.setForeground(new java.awt.Color(0, 0, 0));
+        openButton.setText("Abrir");
+        openButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openButtonActionPerformed(evt);
             }
         });
 
@@ -141,13 +167,13 @@ public class GUI extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane2)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(btnAbrir)
+                        .addComponent(openButton)
                         .addGap(33, 33, 33)
-                        .addComponent(btnGuardar)
+                        .addComponent(saveButton)
                         .addGap(40, 40, 40)
-                        .addComponent(btnGuardarComo)
+                        .addComponent(saveAsButton)
                         .addGap(47, 47, 47)
-                        .addComponent(btn_Nuevo))
+                        .addComponent(newButton))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(188, 188, 188)
                         .addComponent(btnAnalizar))
@@ -173,10 +199,10 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap(22, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnGuardarComo, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAbrir, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_Nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(saveAsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(openButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(newButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_Errores, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_Reportes, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
@@ -210,22 +236,42 @@ public class GUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnGuardarActionPerformed
+    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
+         try {
+                            filesManipulationHandler.saveFile(textEdition1.getText());
+                        } catch (IOException ex) {
+                            Logger.getLogger(MasterMindUI.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+    }//GEN-LAST:event_saveButtonActionPerformed
 
-    private void btnGuardarComoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarComoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnGuardarComoActionPerformed
+    private void saveAsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsButtonActionPerformed
+        JFileChooser browser = new JFileChooser();
+                        browser.setCurrentDirectory(new File("."));
+                        browser.setDialogTitle("Select the directory of the new file!!");
+                        if(browser.showOpenDialog(saveAsButton) == JFileChooser.APPROVE_OPTION){
+                            File SelectBinder = browser.getSelectedFile();
+                            System.out.print(filesManipulationHandler.isExpExtension(SelectBinder.getAbsolutePath()));
+                            if(filesManipulationHandler.isExpExtension(SelectBinder.getAbsolutePath())){
+                                filesManipulationHandler.newFileCreation(SelectBinder.getAbsolutePath(),TextAreaEntrada.getText());
+                                filesManipulationHandler.route=SelectBinder.getAbsolutePath();
+                            }else{
+                                System.out.println("Archive not found");
+                            }
+                        }
+    }//GEN-LAST:event_saveAsButtonActionPerformed
 
-    private void btnAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirActionPerformed
+    private void openButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openButtonActionPerformed
         JFileChooser browser = new JFileChooser();
                         browser.showOpenDialog(openButton);
                         File file = browser.getSelectedFile();
                         if(file!=null){
                             TextAreaEntrada.setText(filesManipulationHandler.readFile(file.getAbsolutePath()));
                         }
-    }//GEN-LAST:event_btnAbrirActionPerformed
+    }//GEN-LAST:event_openButtonActionPerformed
+
+    private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
+        TextAreaEntrada.setText("");
+    }//GEN-LAST:event_newButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -265,12 +311,8 @@ public class GUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea TextAreaEntrada;
     private javax.swing.JTextArea TextAreaSalida;
-    private javax.swing.JButton btnAbrir;
     private javax.swing.JButton btnAnalizar;
-    private javax.swing.JButton btnGuardar;
-    private javax.swing.JButton btnGuardarComo;
     private javax.swing.JButton btn_Errores;
-    private javax.swing.JButton btn_Nuevo;
     private javax.swing.JButton btn_Reportes;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -279,5 +321,9 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JButton newButton;
+    private javax.swing.JButton openButton;
+    private javax.swing.JButton saveAsButton;
+    private javax.swing.JButton saveButton;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,0 +1,80 @@
+package Analyzers;
+import java_cup.runtime.*;
+import java.util.ArrayList;
+import exregan.Manager;
+import exregan.MasterMindUI.*;
+import exregan.Error_DAO;
+import exregan.Node;
+import exregan.Statement;
+import exregan.MasterMindUI;
+
+parser code
+{:
+    public int counter=1;
+    public int numerate = 1;
+    public static Node root;
+    public String conjAs="";
+    public void syntax_error(Symbol s){
+        System.err.println("Error en la Linea " + (s.right+1) +" Columna "+(s.left+1)+ ". Identificador "+s.value + " no reconocido. Se ha recuperado del error." );
+        MasterMindUI.errorDaoHandler.newError("Tipo Sintáctico","Identificador " +s.value + " no reconocido" , (s.right+1),(s.left+1) );
+    }
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{
+        System.err.println("Error en la Linea " + (s.right+1)+ " Columna "+(s.left+1)+". Identificador " +s.value + " no reconocido.");
+        MasterMindUI.errorDaoHandler.newError("Tipo Sintáctico","Identificador " +s.value + " no reconocido" , (s.right+1),(s.left+1) );
+    }
+
+
+:}
+terminal String comma, percent, prime;
+terminal String openingKey,closingKey;
+terminal String twoPoints;
+terminal String conj;
+terminal String Word,NumbersList,point,zeroOrMore,oneOrMore,or,questionMark;
+terminal String line,greaterThan,number;
+terminal String LettersList,Letter,Digit,Character;
+terminal String BigString, SmallString,semicolon;
+terminal String ExpReg;
+terminal String singleQuote,doubleQuote,lineJump;
+non terminal BEGIN;
+non terminal EXP;
+non terminal Node REG;
+non terminal DECLARATION, STATEMENT, NOTATION ;
+
+
+/*precedence right or;
+precedence right point;
+precedence right zeroOrMore, OneOrMore, questionMark;*/
+
+
+start with BEGIN; 
+
+BEGIN ::= EXP;
+
+EXP ::= openingKey DECLARATION percent percent percent percent STATEMENT closingKey ;
+
+
+
+STATEMENT ::= STATEMENT Word:statement twoPoints BigString:entry semicolon {:Statement.newStatement(statement,entry+"#");:}
+              | Word:statement twoPoints  BigString:entry semicolon {:Statement.newStatement(statement,entry+"#");:};
+
+DECLARATION ::= DECLARATION conj twoPoints Word:conjj{:parser.conjAs="{"+conjj+"}";:} line greaterThan NOTATION semicolon   
+               | DECLARATION  Word:name line greaterThan REG:value1 semicolon {:parser.root=value1;value1.expresionName=name; MasterMindUI.regularExpressions.add(value1);value1.setUltimate(parser.numerate); Node.last=parser.numerate;parser.counter=1;parser.numerate=1;:}
+               | conj twoPoints Word:conjj{:parser.conjAs="{"+conjj+"}";:} line greaterThan NOTATION semicolon {::}
+               | Word:name line greaterThan REG:value1 semicolon {:parser.root=(Node)value1; value1=(Node)value1;value1.expresionName=name; MasterMindUI.regularExpressions.add(value1);value1.setUltimate(parser.numerate);Node.last=parser.numerate; parser.counter=1; parser.numerate = 1; :} ;       
+
+REG ::= point:operator REG:value1 REG:value2 {:RESULT=new Node(value1,value2,operator,parser.counter,"N","","",0);parser.counter++;:}  
+        |or:operator REG:value1 REG:value2 {:RESULT=new Node(value1,value2,operator,parser.counter,"N","","",0);parser.counter++;:}
+        |oneOrMore:operator REG:value1 {:RESULT=new Node(value1,null,operator,parser.counter,"N","","",0);parser.counter++;:}
+        |zeroOrMore:operator REG:value1 {:RESULT=new Node(value1,null,operator,parser.counter,"A","","",0);parser.counter++;:}
+        |questionMark:operator REG:value1 {:RESULT=new Node(value1,null,operator,parser.counter,"A","","",0);parser.counter++;:}
+        |doubleQuote:operator {:RESULT=new Node(null,null,operator,parser.counter,"N",Integer.toString(parser.numerate),Integer.toString(parser.numerate),parser.numerate);parser.numerate++;parser.counter++;:}
+        |singleQuote:operator {:RESULT=new Node(null,null,operator,parser.counter,"N",Integer.toString(parser.numerate),Integer.toString(parser.numerate),parser.numerate);parser.numerate++;parser.counter++;:}
+        |lineJump:operator {:RESULT=new Node(null,null,operator,parser.counter,"N",Integer.toString(parser.numerate),Integer.toString(parser.numerate),parser.numerate);parser.numerate++;parser.counter++;:}
+        |ExpReg:operator {:RESULT=new Node(null,null,operator,parser.counter,"N",Integer.toString(parser.numerate),Integer.toString(parser.numerate),parser.numerate);parser.numerate++;parser.counter++;:}
+        |SmallString:operator {:RESULT=new Node(null,null,operator.replace("\"",""),parser.counter,"N",Integer.toString(parser.numerate),Integer.toString(parser.numerate),parser.numerate);parser.numerate++;parser.counter++;:};
+
+NOTATION ::= Digit:firstDigit prime Digit:secondDigit {:Manager.numberLetterManage(parser.conjAs, firstDigit, secondDigit);:}
+            |Letter:firstLetter prime Letter:secondLetter {:Manager.numberLetterManage(parser.conjAs, firstLetter, secondLetter);:}
+            |Character:firstC prime Character:secondC {:Manager.rangeConj(parser.conjAs, firstC, secondC);:}
+            |NumbersList:list{:Manager.commasConj(parser.conjAs, list);:}
+            |LettersList:list{:Manager.commasConj(parser.conjAs, list);:};
