@@ -5,10 +5,16 @@
 package exregan;
 
 import Analyzers.Parser;
+import static exregan.MasterMindUI.ch;
+import static exregan.MasterMindUI.conjs;
 import static exregan.MasterMindUI.filesManipulationHandler;
+import static exregan.MasterMindUI.regularExpressions;
 import static exregan.MasterMindUI.textEdition1;
+import static exregan.MasterMindUI.textEdition2;
+import static exregan.MasterMindUI.wordsList;
 import java.io.File;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -83,6 +89,11 @@ public class GUI extends javax.swing.JFrame {
         btn_Reportes.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
         btn_Reportes.setForeground(new java.awt.Color(0, 0, 0));
         btn_Reportes.setText("Generar Reportes");
+        btn_Reportes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_ReportesActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Consolas", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -272,6 +283,60 @@ public class GUI extends javax.swing.JFrame {
     private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
         TextAreaEntrada.setText("");
     }//GEN-LAST:event_newButtonActionPerformed
+
+    private void btn_ReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ReportesActionPerformed
+        conjs = new ArrayList();
+                        ch = new StackList();
+                        Files_Manipulation writer = new Files_Manipulation();
+
+                        wordsList = "";
+
+                        try {
+                            String content = TextAreaEntrada.getText();
+                            Analyzers.Parser parser;
+
+                            parser = new Analyzers.Parser(new Analyzers.Lexical(new StringReader(content)));
+                            parser.parse();
+
+                        } catch (Exception e) {
+                        }
+
+                        for(int i=0; i<regularExpressions.size(); i++){
+                            String fileName=regularExpressions.get(i).expresionName;
+                            
+                            java.util.List<Following> followings = new ArrayList(); 
+                            Node.theFollowing = followings;
+                            Node node = new Node(regularExpressions.get(i),new Node(null,null,"#",regularExpressions.get(i).id+1,"N",
+                            Integer.toString(regularExpressions.get(i).getUltimate()),Integer.toString(regularExpressions.get(i).getUltimate()),regularExpressions.get(i).getUltimate())
+                            ,".",0,"N","","",0);
+                            Parser.root.treeTravel(node);
+
+                            //Crear tabla de siguientes
+                            Files_Manipulation.createD(Following.tabulateTheFollowing(followings,fileName),"C:/Users/Jose/Documents/GitHub/OLC1_Proyecto1_1S2023_202100308_C/EXREGAN/Reportes/SIGUIENTES_202100308/"+fileName);
+
+                            //Calcular estados en base a la raíz del arbol
+                            State.defineStates(new State(0,node.previous,node.previous.split(","),null));
+                            State.usedStates = new ArrayList();
+                            
+                            java.util.List<State> states = new ArrayList(); 
+                            states = State.theStates;
+                            //Creación de la tabla de estados
+
+                            Files_Manipulation.createD(State.statesTabulation(states,fileName),"C:/Users/Jose/Documents/GitHub/OLC1_Proyecto1_1S2023_202100308_C/EXREGAN/Reportes/TRANSICIONES_202100308/"+fileName);
+                            //AFD
+                            Files_Manipulation.createD(State.afdGraph(states),"C:/Users/Jose/Documents/GitHub/OLC1_Proyecto1_1S2023_202100308_C/EXREGAN/Reportes/AFD_202100308/"+fileName);
+
+                            Files_Manipulation.afndCreation(Node.dotAfd, fileName);
+                            Node.dotAfd ="";
+                            State.theStates.clear(); 
+                            Node.terminalList = new ArrayList();
+
+                            //AST
+                            writer.treeCreation(node, fileName+Integer.toString(i));
+                        }
+                        regularExpressions.clear();
+                        textEdition2.setText("Autómatas graficados");
+    }//GEN-LAST:event_btn_ReportesActionPerformed
 
     /**
      * @param args the command line arguments
