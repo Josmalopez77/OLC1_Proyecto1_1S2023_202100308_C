@@ -1,0 +1,12 @@
+[
+{
+"Valor" :"identificador",
+"Expresion Regular": "soy_un_id_1",
+"Resultado":"Cadena válida"
+},
+{
+"Valor" :"decimales",
+"Expresion Regular": "1505.55",
+"Resultado":"Cadena válida"
+},
+]
