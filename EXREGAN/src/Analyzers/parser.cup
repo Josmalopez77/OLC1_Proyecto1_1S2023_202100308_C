@@ -3,10 +3,12 @@ import java_cup.runtime.*;
 import java.util.ArrayList;
 import exregan.Manager;
 import exregan.MasterMindUI.*;
+import exregan.GUI.*;
 import exregan.Error_DAO;
 import exregan.Node;
 import exregan.Statement;
 import exregan.MasterMindUI;
+import exregan.GUI;
 
 parser code
 {:
@@ -16,11 +18,13 @@ parser code
     public String conjAs="";
     public void syntax_error(Symbol s){
         System.err.println("Error en la Linea " + (s.right+1) +" Columna "+(s.left+1)+ ". Identificador "+s.value + " no reconocido. Se ha recuperado del error." );
-        MasterMindUI.errorDaoHandler.newError("Tipo Sintáctico","Identificador " +s.value + " no reconocido" , (s.right+1),(s.left+1) );
+        GUI.errorDaoHandler.newError("Tipo Sintáctico","Identificador " +s.value + " no reconocido" , (s.right+1),(s.left+1) );
+MasterMindUI.errorDaoHandler.newError("Tipo Sintáctico","Identificador " +s.value + " no reconocido" , (s.right+1),(s.left+1) );
     }
     public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{
         System.err.println("Error en la Linea " + (s.right+1)+ " Columna "+(s.left+1)+". Identificador " +s.value + " no reconocido.");
         MasterMindUI.errorDaoHandler.newError("Tipo Sintáctico","Identificador " +s.value + " no reconocido" , (s.right+1),(s.left+1) );
+        GUI.errorDaoHandler.newError("Tipo Sintáctico","Identificador " +s.value + " no reconocido" , (s.right+1),(s.left+1) );
     }
 
 
@@ -58,9 +62,9 @@ STATEMENT ::= STATEMENT Word:statement twoPoints BigString:entry semicolon {:Sta
               | Word:statement twoPoints  BigString:entry semicolon {:Statement.newStatement(statement,entry+"#");:};
 
 DECLARATION ::= DECLARATION conj twoPoints Word:conjj{:parser.conjAs="{"+conjj+"}";:} line greaterThan NOTATION semicolon   
-               | DECLARATION  Word:name line greaterThan REG:value1 semicolon {:parser.root=value1;value1.expresionName=name; MasterMindUI.regularExpressions.add(value1);value1.setUltimate(parser.numerate); Node.last=parser.numerate;parser.counter=1;parser.numerate=1;:}
+               | DECLARATION  Word:name line greaterThan REG:value1 semicolon {:parser.root=value1;value1.expresionName=name; GUI.regularExpressions.add(value1);value1.setUltimate(parser.numerate); Node.last=parser.numerate;parser.counter=1;parser.numerate=1;:}
                | conj twoPoints Word:conjj{:parser.conjAs="{"+conjj+"}";:} line greaterThan NOTATION semicolon {::}
-               | Word:name line greaterThan REG:value1 semicolon {:parser.root=(Node)value1; value1=(Node)value1;value1.expresionName=name; MasterMindUI.regularExpressions.add(value1);value1.setUltimate(parser.numerate);Node.last=parser.numerate; parser.counter=1; parser.numerate = 1; :} ;       
+               | Word:name line greaterThan REG:value1 semicolon {:parser.root=(Node)value1; value1=(Node)value1;value1.expresionName=name; GUI.regularExpressions.add(value1);value1.setUltimate(parser.numerate);Node.last=parser.numerate; parser.counter=1; parser.numerate = 1; :} ;       
 
 REG ::= point:operator REG:value1 REG:value2 {:RESULT=new Node(value1,value2,operator,parser.counter,"N","","",0);parser.counter++;:}  
         |or:operator REG:value1 REG:value2 {:RESULT=new Node(value1,value2,operator,parser.counter,"N","","",0);parser.counter++;:}

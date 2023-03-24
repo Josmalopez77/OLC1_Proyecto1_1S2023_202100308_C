@@ -20,6 +20,7 @@ public class Statement {
     
     public static void newStatement(String name, String entry){
         MasterMindUI.statements.add(new Statement(name,entry));
+        GUI.statements.add(new Statement(name,entry));
         
     }
     

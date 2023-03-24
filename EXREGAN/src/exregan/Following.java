@@ -37,9 +37,9 @@ public class Following {
         String table="digraph G{\n" +
         "graph [fontsize=50 labelloc=\"t\" label=\"\" splines=true overlap=false rankdir = \"LR\"];\n" +
         "\n" +
-        "\"state5\" [ style = \"filled\" penwidth = 1 fillcolor=\"red\" fontname = \"Showcard Gothic\" shape = \"folder\" label =\n" +
-        "<<table border=\"0\" cellborder=\"1\" cellpadding=\"7\" bgcolor=\"blue\">\n" +
-        "<tr><td bgcolor=\"red\" align=\"center\" colspan=\"3\"><font color=\"blue\">"+name+"</font></td></tr>\n" +
+        "\"state5\" [ style = \"filled\" penwidth = 1 fillcolor=\"black\" fontname = \"Consolas\" shape = \"folder\" label =\n" +
+        "<<table border=\"0\" cellborder=\"1\" cellpadding=\"7\" bgcolor=\"#00FFFF\">\n" +
+        "<tr><td bgcolor=\"black\" align=\"center\" colspan=\"3\"><font color=\"white\">"+name+"</font></td></tr>\n" +
         "\n" +
         "<tr>\n" +"<td align=\"left\">Terminal</td>\n" +"<td align=\"left\">Leaf</td>\n" +"<td align=\"left\">The Following</td>\n" +
                 "</tr>"+followingDot+"</table>>];}";

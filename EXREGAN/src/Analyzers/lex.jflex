@@ -3,6 +3,8 @@ import java_cup.runtime.Symbol;
 
 import exregan.MasterMindUI.*;
 import exregan.MasterMindUI;
+import exregan.GUI.*;
+import exregan.GUI;
 %% 
 %class Lexical
 %public 
@@ -80,4 +82,5 @@ Comment = "//"(.*)
 . {
     System.err.println("Error lexico: "+yytext()+ " Linea:"+(yyline)+" Columna:"+(yycolumn));
     MasterMindUI.errorDaoHandler.newError("Tipo Lexico", yytext(), yyline, yycolumn);
+    GUI.errorDaoHandler.newError("Tipo Lexico", yytext(), yyline, yycolumn);
   }

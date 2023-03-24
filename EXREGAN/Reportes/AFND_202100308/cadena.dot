@@ -1,0 +1,37 @@
+digraph G{
+rankdir=LR
+node[shape=circle]
+size="15"
+82[label=""]83[label=""]82 -> 83 [label=ε]
+83[shape = doublecircle];
+84[label=""]85[label=""]84 -> 85 [label="\'"]
+86[label=""]87[label=""]86 -> 87 [label=" "]
+88[label=""]89[label=""]88 -> 89 [label="\{digito\}"]
+90[label=""]91[label=""]90 -> 91 [label="\{mayus\}"]
+92[label=""]93[label=""]92 -> 93 [label="\{minus\}"]
+94[label=""]95[label=""]94 -> 95 [label="\n"]
+96[label=""]97[label=""]96 -> 94 [label=ε]
+96 -> 92 [label=ε]
+95 -> 97 [label=ε]
+93 -> 97 [label=ε]
+98[label=""]99[label=""]98 -> 96 [label=ε]
+98 -> 90 [label=ε]
+97 -> 99 [label=ε]
+91 -> 99 [label=ε]
+100[label=""]101[label=""]100 -> 98 [label=ε]
+100 -> 88 [label=ε]
+99 -> 101 [label=ε]
+89 -> 101 [label=ε]
+102[label=""]103[label=""]102 -> 100 [label=ε]
+102 -> 86 [label=ε]
+101 -> 103 [label=ε]
+87 -> 103 [label=ε]
+104[label=""]105[label=""]103 -> 105 [label=ε]
+104 -> 102 [label=ε]
+103 -> 102 [label=ε]
+105 -> 84 [label=ε]
+106[label=""]107[label=""]106 -> 107 [label="\'"]
+107 -> 104 [label=ε]
+85 -> 82 [label=ε]
+
+}

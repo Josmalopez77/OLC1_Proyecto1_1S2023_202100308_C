@@ -1,38 +1,28 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package exregan;
-
+ */package exregan;
 import Analyzers.Parser;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Image;
-import java.awt.Toolkit;
+import exregan.Files_Manipulation;
+import exregan.Statement;
+import java.io.IOException;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.io.IOException;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTree;
-import javax.swing.WindowConstants;
+import java_cup.parser;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
-/**
- *
- * @author Jose
- */
+
 public class MasterMindUI {
     /*Muy importante se instancia nuestra clase TNode, en una
     variable, que nos servirá como un manejador de la misma.*/
@@ -45,8 +35,7 @@ public class MasterMindUI {
     public static java.util.List<Manager> conjs;
     public static String wordsList;
     
-    /*Variable g
-    lobal, área de texto que mostrará el texto del archivo 
+    /*Variable global, área de texto que mostrará el texto del archivo 
     de entrada*/
     public static  JTextArea textEdition1;
     /*Variable global, área de texto que mostrará todo lo relacionado
@@ -83,7 +72,7 @@ public class MasterMindUI {
         //=========================Creación del Frame del Admin==============================
         
         //Se crea el frame y se le agrega un título
-        JFrame managerFrame = new JFrame("ExpAnalyzer----Jose Lopez");
+        JFrame managerFrame = new JFrame("ExpAnalyzer----Jose Lopez 2021");
         managerFrame.setLayout(null);
         
         //Se hace visible el frame
@@ -253,7 +242,7 @@ public class MasterMindUI {
                             Parser.root.treeTravel(node);
 
                             //Crear tabla de siguientes
-                            Files_Manipulation.createD(Following.tabulateTheFollowing(followings,fileName),"C:/Users/Jose/Desktop/OLC_P1_ExpAnalyzer-main/ExpAnalyzer/Reportes/SIGUIENTES/"+fileName);
+                            Files_Manipulation.createD(Following.tabulateTheFollowing(followings,fileName),"C:/Users/Jose/Documents/GitHub/OLC1_Proyecto1_1S2023_202100308_C/EXREGAN/Reportes/SIGUIENTES_202100308/"+fileName);
 
                             //Calcular estados en base a la raíz del arbol
                             State.defineStates(new State(0,node.previous,node.previous.split(","),null));
@@ -263,9 +252,9 @@ public class MasterMindUI {
                             states = State.theStates;
                             //Creación de la tabla de estados
 
-                            Files_Manipulation.createD(State.statesTabulation(states,fileName),"C:/Users/Jose/Desktop/OLC_P1_ExpAnalyzer-main/ExpAnalyzer/Reportes/TRANSICIONES/"+fileName);
+                            Files_Manipulation.createD(State.statesTabulation(states,fileName),"C:/Users/Jose/Documents/GitHub/OLC1_Proyecto1_1S2023_202100308_C/EXREGAN/Reportes/TRANSICIONES_202100308/"+fileName);
                             //AFD
-                            Files_Manipulation.createD(State.afdGraph(states),"C:/Users/Jose/Desktop/OLC_P1_ExpAnalyzer-main/ExpAnalyzer/Reportes/AFD/"+fileName);
+                            Files_Manipulation.createD(State.afdGraph(states),"C:/Users/Jose/Documents/GitHub/OLC1_Proyecto1_1S2023_202100308_C/EXREGAN/Reportes/AFD_202100308/"+fileName);
 
                             Files_Manipulation.afndCreation(Node.dotAfd, fileName);
                             Node.dotAfd ="";
@@ -450,7 +439,7 @@ public class MasterMindUI {
     public static void archivesStructure(){
         
         //Rutas de las carpetas que estarán en el JTree
-        String[] routes = {"C:/Users/Jose/Documents/GitHub/OLC1_Proyecto1_1S2023_202100308_C/EXREGAN/Reportes/AFND_202100308","C:/Users/Jose/Documents/GitHub/OLC1_Proyecto1_1S2023_202100308_C/EXREGAN/Reportes/ARBOLES_202100308","C:/Users/Jose/Documents/GitHub/OLC1_Proyecto1_1S2023_202100308_C/EXREGAN/Reportes/SIGUIENTES_202100308","C:/Users/Jose/Documents/GitHub/OLC1_Proyecto1_1S2023_202100308_C/EXREGAN/Reportes/TRANSICIONES_202100308","C:/Users/Jose/Documents/GitHub/OLC1_Proyecto1_1S2023_202100308_C/EXREGAN/Reportes/AFD_202100308"};
+        String[] routes = {"C:/Users/Jose/Desktop/OLC_P1_ExpAnalyzer-main/ExpAnalyzer/Reportes/AFND","C:/Users/Jose/Desktop/OLC_P1_ExpAnalyzer-main/ExpAnalyzer/Reportes/ARBOLES","C:/Users/Jose/Desktop/OLC_P1_ExpAnalyzer-main/ExpAnalyzer/Reportes/SIGUIENTES","C:/Users/Jose/Desktop/OLC_P1_ExpAnalyzer-main/ExpAnalyzer/Reportes/TRANSICIONES","C:/Users/Jose/Desktop/OLC_P1_ExpAnalyzer-main/ExpAnalyzer/Reportes/AFD"};
         //Nodo raíz que lleva el título "Reportes"
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("Reportes");
         //Por cada ruta:
@@ -476,5 +465,3 @@ public class MasterMindUI {
     
         
 }
-       
-        

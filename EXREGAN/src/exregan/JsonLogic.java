@@ -84,6 +84,7 @@ public class JsonLogic {
                             "\"Expresion Regular\": \""+entry+"\",\n"+
                             "\"Resultado\":\"Cadena válida\"\n},\n"
                     );
+                    GUI.response += "La expresión " + entry +" es válida con la expresión Regular: "+ name +"\n";
                     MasterMindUI.response += "La expresión " + entry +" es válida con la expresión Regular: "+ name +"\n";
                 }else{
                     entry = entry.replaceFirst(".$","");
@@ -91,6 +92,7 @@ public class JsonLogic {
                             "Expresion Regular: "+entrada+",\n"+
                             "Resultado:Cadena inválida}\n"
                     );*/                    
+                    GUI.response += "La expresión " + entry +" no es válida con la expresión Regular: "+ name +"\n";
                     MasterMindUI.response += "La expresión " + entry +" no es válida con la expresión Regular: "+ name +"\n";
                 } 
             }

@@ -48,7 +48,7 @@ public class Error_DAO {
          Date date = new Date();
          String datee = String.valueOf(date);
         try {
-            powerful = new FileWriter("./Reportes/ERRORES/Errores.html");
+            powerful = new FileWriter("./Reportes/ERRORES_202100308/Errores.html");
             
             writter = new PrintWriter(powerful);
             writter.println(datee);
@@ -72,16 +72,16 @@ public class Error_DAO {
                     + "<title>Reporte De Errores</title>\n"
                     + "</head>\n"
                     + "\n"
-                    + "<body bgcolor=”#6CFC07”>\n"
+                    + "<body bgcolor=\"black\">\n"
                     + "\n"
                     + "<center>");
-            writter.println("<h1>" + "Reportes De Errores Compiladores 1 " + "</h1>");
+            writter.println("<h1><font color=\"white\">" + "Reportes De Errores Compiladores 1 " + "</font></h1>");
             writter.println("<table width=\"500\" border=\"2\" cellpadding=\"5\">");
             writter.println("<tr>");
-            writter.println("<th>TIPO</th>");
-            writter.println("<th>DESCRIPCIÓN</th>");
-            writter.println("<th>FILA</th>");
-            writter.println("<th>COLUMNA</th>");
+            writter.println("<th bgcolor=\"#00FFFF\">TIPO</th>");
+            writter.println("<th bgcolor=\"#00FFFF\">DESCRIPCIÓN</th>");
+            writter.println("<th bgcolor=\"#00FFFF\">FILA</th>");
+            writter.println("<th bgcolor=\"#00FFFF\">COLUMNA</th>");
             writter.println(" </tr>");
             if(errors[0]!=null){
                 System.out.println("EnseriO???");
@@ -89,10 +89,10 @@ public class Error_DAO {
                 for (int i = 0; i < errors.length; i++) {
                     if(errors[i]!=null){
                         writter.println("<tr>");
-                        writter.println("<td>"+errors[i].getType()+"</td>");
-                        writter.println("<td>"+errors[i].getDescription()+"</td>");
-                        writter.println("<td>"+errors[i].getRow()+"</td>");
-                        writter.println("<td>"+errors[i].getColumn()+"</td>");
+                        writter.println("<td bgcolor=\"#00FFFF\">"+errors[i].getType()+"</td>");
+                        writter.println("<td bgcolor=\"#00FFFF\">"+errors[i].getDescription()+"</td>");
+                        writter.println("<td bgcolor=\"#00FFFF\">"+errors[i].getRow()+"</td>");
+                        writter.println("<td bgcolor=\"#00FFFF\">"+errors[i].getColumn()+"</td>");
                         writter.println(" </tr>");
                         }else{
                         break;

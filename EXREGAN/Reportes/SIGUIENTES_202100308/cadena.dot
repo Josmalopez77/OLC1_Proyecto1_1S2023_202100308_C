@@ -1,0 +1,36 @@
+digraph G{
+graph [fontsize=50 labelloc="t" label="" splines=true overlap=false rankdir = "LR"];
+
+"state5" [ style = "filled" penwidth = 1 fillcolor="black" fontname = "Consolas" shape = "folder" label =
+<<table border="0" cellborder="1" cellpadding="7" bgcolor="#00FFFF">
+<tr><td bgcolor="black" align="center" colspan="3"><font color="white">cadena</font></td></tr>
+
+<tr>
+<td align="left">Terminal</td>
+<td align="left">Leaf</td>
+<td align="left">The Following</td>
+</tr><tr><td>\'</td>
+<td>1</td>
+<td>[2, 3, 4, 5, 6]</td></tr>
+<tr><td>\n</td>
+<td>2</td>
+<td>[2, 3, 4, 5, 6, 7]</td></tr>
+<tr><td>\{minus\}</td>
+<td>3</td>
+<td>[2, 3, 4, 5, 6, 7]</td></tr>
+<tr><td>\{mayus\}</td>
+<td>4</td>
+<td>[2, 3, 4, 5, 6, 7]</td></tr>
+<tr><td>\{digito\}</td>
+<td>5</td>
+<td>[2, 3, 4, 5, 6, 7]</td></tr>
+<tr><td> </td>
+<td>6</td>
+<td>[2, 3, 4, 5, 6, 7]</td></tr>
+<tr><td>\'</td>
+<td>7</td>
+<td>[8]</td></tr>
+<tr><td>#</td>
+<td>8</td>
+<td>[]</td></tr>
+</table>>];}

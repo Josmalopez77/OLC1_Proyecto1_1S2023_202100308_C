@@ -71,6 +71,7 @@ public class Files_Manipulation {
         }
     }
     public static void jsonCreation(String name){
+        System.out.println("ENTRAMOS A JSOPNCREATION");
         String content ="";
         for(int i=0; i<JsonLogic.json.size(); i++){
             content+=JsonLogic.json.get(i);
@@ -78,7 +79,6 @@ public class Files_Manipulation {
         
         
         try {
-
             FileWriter file = new FileWriter("C:/Users/Jose/Documents/GitHub/OLC1_Proyecto1_1S2023_202100308_C/EXREGAN/Reportes/SALIDAS_202100308/salida"+name+".json");
             file.write("[\n"+content+"]");
             file.flush();

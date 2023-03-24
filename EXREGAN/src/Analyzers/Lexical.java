@@ -7,6 +7,8 @@ import java_cup.runtime.Symbol;
 
 import exregan.MasterMindUI.*;
 import exregan.MasterMindUI;
+import exregan.GUI.*;
+import exregan.GUI;
 
 @SuppressWarnings("fallthrough")
 public class Lexical implements java_cup.runtime.Scanner {

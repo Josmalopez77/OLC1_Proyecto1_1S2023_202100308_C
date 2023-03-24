@@ -5,22 +5,24 @@
 package exregan;
 
 import Analyzers.Parser;
-import static exregan.MasterMindUI.ch;
-import static exregan.MasterMindUI.conjs;
-import static exregan.MasterMindUI.filesManipulationHandler;
-import static exregan.MasterMindUI.regularExpressions;
-import static exregan.MasterMindUI.textEdition1;
-import static exregan.MasterMindUI.textEdition2;
-import static exregan.MasterMindUI.wordsList;
-import java.io.File;
+import exregan.Files_Manipulation;
+import exregan.Statement;
 import java.io.IOException;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFileChooser;
-import javax.swing.JTextArea;
-import javax.swing.JTree;
+import java_cup.parser;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 /**
  *
@@ -28,14 +30,12 @@ import javax.swing.JTree;
  */
 public class GUI extends javax.swing.JFrame {
     static Files_Manipulation filesManipulationHandler = new Files_Manipulation();
-    public static  JTextArea textEdition1;
-    public static  JTextArea textEdition2;
     public static Error_DAO errorDaoHandler=Error_DAO.getInstance();
     public static java.util.List<Node> regularExpressions = new ArrayList();
     public static java.util.List<Manager> conjs;
     public static String wordsList;
     public static StackList ch;
-    public static JTree archivesTree = new JTree();
+    
     public static java.util.List<Statement> statements = new ArrayList();
     public static String response="";
     public static int math =0;
@@ -66,17 +66,22 @@ public class GUI extends javax.swing.JFrame {
         openButton = new javax.swing.JButton();
         btnAnalizar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
         TextAreaSalida = new javax.swing.JTextArea();
         jScrollPane3 = new javax.swing.JScrollPane();
         TextAreaEntrada = new javax.swing.JTextArea();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        archivesTree = new javax.swing.JTree();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Pryecto1 José López");
         setBackground(new java.awt.Color(0, 0, 0));
         setForeground(java.awt.Color.black);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         jPanel2.setBackground(new java.awt.Color(0, 0, 0));
 
@@ -84,6 +89,11 @@ public class GUI extends javax.swing.JFrame {
         btn_Errores.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
         btn_Errores.setForeground(new java.awt.Color(0, 0, 0));
         btn_Errores.setText("HTML Errores");
+        btn_Errores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_ErroresActionPerformed(evt);
+            }
+        });
 
         btn_Reportes.setBackground(new java.awt.Color(51, 255, 255));
         btn_Reportes.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
@@ -143,17 +153,20 @@ public class GUI extends javax.swing.JFrame {
         btnAnalizar.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
         btnAnalizar.setForeground(new java.awt.Color(0, 0, 0));
         btnAnalizar.setText("Analizar Entrada");
+        btnAnalizar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAnalizarMouseClicked(evt);
+            }
+        });
+        btnAnalizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnalizarActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Consolas", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Salidas");
-
-        jTextArea1.setBackground(new java.awt.Color(255, 255, 255));
-        jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
-        jTextArea1.setForeground(new java.awt.Color(0, 0, 0));
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
 
         TextAreaSalida.setBackground(new java.awt.Color(255, 255, 255));
         TextAreaSalida.setColumns(20);
@@ -168,6 +181,8 @@ public class GUI extends javax.swing.JFrame {
         TextAreaEntrada.setForeground(new java.awt.Color(0, 0, 0));
         TextAreaEntrada.setRows(5);
         jScrollPane3.setViewportView(TextAreaEntrada);
+
+        jScrollPane4.setViewportView(archivesTree);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -192,7 +207,7 @@ public class GUI extends javax.swing.JFrame {
                         .addGap(14, 14, 14)
                         .addComponent(jLabel2))
                     .addComponent(jScrollPane3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 215, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 203, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel2Layout.createSequentialGroup()
@@ -202,13 +217,15 @@ public class GUI extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createSequentialGroup()
                             .addGap(6, 6, 6)
                             .addComponent(jLabel1)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(15, 15, 15)))
                 .addGap(22, 22, 22))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(22, Short.MAX_VALUE)
+                .addContainerGap(65, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(saveAsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -219,25 +236,28 @@ public class GUI extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnAnalizar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(11, 11, 11)
-                        .addComponent(jLabel2)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(16, 16, 16))
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(88, 88, 88))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -249,9 +269,9 @@ public class GUI extends javax.swing.JFrame {
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
          try {
-                            filesManipulationHandler.saveFile(textEdition1.getText());
+                            filesManipulationHandler.saveFile(TextAreaEntrada.getText());
                         } catch (IOException ex) {
-                            Logger.getLogger(MasterMindUI.class.getName()).log(Level.SEVERE, null, ex);
+                            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
                         }
     }//GEN-LAST:event_saveButtonActionPerformed
 
@@ -285,7 +305,7 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_newButtonActionPerformed
 
     private void btn_ReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ReportesActionPerformed
-        conjs = new ArrayList();
+                       conjs = new ArrayList();
                         ch = new StackList();
                         Files_Manipulation writer = new Files_Manipulation();
 
@@ -335,9 +355,116 @@ public class GUI extends javax.swing.JFrame {
                             writer.treeCreation(node, fileName+Integer.toString(i));
                         }
                         regularExpressions.clear();
-                        textEdition2.setText("Autómatas graficados");
+                        TextAreaSalida.setText("Autómatas graficados");
     }//GEN-LAST:event_btn_ReportesActionPerformed
 
+    private void btnAnalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnalizarActionPerformed
+        try {
+                            String importrantContent = TextAreaEntrada.getText();
+                            Analyzers.Parser parser;
+                            parser = new Analyzers.Parser(new Analyzers.Lexical(new StringReader(importrantContent)));
+                            parser.parse();
+            
+                        } catch (Exception e) {
+                        }
+        
+        
+                        for(int i=0; i<regularExpressions.size(); i++){
+                            String fileName=regularExpressions.get(i).expresionName;
+                            //System.out.println(ExpsRegs.get(i).enumerador);
+                            java.util.List<Following> theFollowing = new ArrayList(); 
+                            Node.theFollowing = theFollowing;
+                            Node node = new Node(regularExpressions.get(i),new Node(null,null,"#",regularExpressions.get(i).id+1,"N",
+                            Integer.toString(regularExpressions.get(i).getUltimate()),Integer.toString(regularExpressions.get(i).getUltimate()),regularExpressions.get(i).getUltimate())
+                            ,".",0,"N","","",0);
+                            Parser.root.treeTravel(node);
+                            Following.tabulateTheFollowing(theFollowing,fileName);
+            
+            
+                            //CALCULAR ESTADOS MANDANDO LA RAIZ DEL ARBOL COMO ESTADO INICIAL
+                            State.defineStates(new State(0,node.previous,node.previous.split(","),null));
+                            State.usedStates = new ArrayList();
+
+                            java.util.List<State> theStates = new ArrayList(); 
+                            theStates = State.theStates;
+                            JsonLogic spy = new JsonLogic(fileName,new ArrayList());
+                            for(int j=0 ; j<theStates.size();j++){
+                                spy.statesTable.add(theStates.get(j));
+                            }
+                            JsonLogic.jsonLogic.add(spy);
+                            State.theStates.clear(); 
+                            Node.terminalList = new ArrayList();
+                        }
+
+                        regularExpressions.clear();
+                        JsonLogic.conjAddition();
+        
+                        for(int i=0; i<statements.size();i++){
+                            statements.get(i).entry=statements.get(i).entry.replace("\"","");
+                            JsonLogic.validate(JsonLogic.finder(statements.get(i).name), statements.get(i).entry,0,statements.get(i).name);
+
+                        }
+                        if(JsonLogic.json.size()!=0){
+                            System.out.println("SI ENTRO KNAL");
+                            Files_Manipulation.jsonCreation(Integer.toString(math));
+                            
+                        }
+        
+        
+                        TextAreaSalida.setText(response);
+                        response="";
+                        statements.clear();
+                        JsonLogic.jsonLogic = new ArrayList();
+                        math++;
+                        
+                    
+    }//GEN-LAST:event_btnAnalizarActionPerformed
+
+    private void btn_ErroresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ErroresActionPerformed
+        errorDaoHandler.errorsReport();
+    }//GEN-LAST:event_btn_ErroresActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("root");
+        archivesTree.setModel(new DefaultTreeModel(rootNode));
+        archivesTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
+            public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
+                
+            }
+        });
+        archivesStructure();
+    }//GEN-LAST:event_formWindowActivated
+
+    private void btnAnalizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAnalizarMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAnalizarMouseClicked
+    
+    
+    public static void archivesStructure(){
+        
+        //Rutas de las carpetas que estarán en el JTree
+        String[] routes = {"C:/Users/Jose/Documents/GitHub/OLC1_Proyecto1_1S2023_202100308_C/EXREGAN/Reportes/AFND_202100308","C:/Users/Jose/Documents/GitHub/OLC1_Proyecto1_1S2023_202100308_C/EXREGAN/Reportes/ARBOLES_202100308","C:/Users/Jose/Documents/GitHub/OLC1_Proyecto1_1S2023_202100308_C/EXREGAN/Reportes/SIGUIENTES_202100308","C:/Users/Jose/Documents/GitHub/OLC1_Proyecto1_1S2023_202100308_C/EXREGAN/Reportes/TRANSICIONES_202100308","C:/Users/Jose/Documents/GitHub/OLC1_Proyecto1_1S2023_202100308_C/EXREGAN/Reportes/AFD_202100308"};
+        //Nodo raíz que lleva el título "Reportes"
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode("Reportes");
+        //Por cada ruta:
+        for(int i=0; i<routes.length; i++){
+            //Se crea un nuevo contenedor
+            File container = new File(routes[i]);
+            //Cada contenedor tendrá una lista
+            String[] list = container.list();
+            DefaultMutableTreeNode containerSon = new DefaultMutableTreeNode(routes[i]);
+            if(list!=null){
+            for (int j=0; j< list.length; j++) {
+                DefaultMutableTreeNode node = new DefaultMutableTreeNode(list[j]);
+                    containerSon.add(node);
+                }
+            }
+            root.add(containerSon);
+            }
+        DefaultTreeModel model =  new DefaultTreeModel(root);
+        archivesTree.setModel(model);
+            
+    }
     /**
      * @param args the command line arguments
      */
@@ -374,18 +501,18 @@ public class GUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextArea TextAreaEntrada;
-    private javax.swing.JTextArea TextAreaSalida;
+    public static javax.swing.JTextArea TextAreaEntrada;
+    public static javax.swing.JTextArea TextAreaSalida;
+    private static javax.swing.JTree archivesTree;
     private javax.swing.JButton btnAnalizar;
     private javax.swing.JButton btn_Errores;
     private javax.swing.JButton btn_Reportes;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JButton newButton;
     private javax.swing.JButton openButton;
     private javax.swing.JButton saveAsButton;
